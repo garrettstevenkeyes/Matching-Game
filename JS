@@ -1,0 +1,207 @@
+
+//make the icons display and interate through the loop
+let card = document.getElementsByClassName("card");
+let cards = [...card];
+
+//complete deck of cards
+const deck = document.querySelector(".deck");
+
+//declare moves
+let moves = 0;
+let counter = document.querySelector(".moves");
+
+//declare variable of matchedCards
+let matchedCard = document.getElementsByClassName("match");
+
+// array of openedCards
+var openedCards = [];
+
+
+
+/*------------------PART 2---Shuffle the cards --------------------------------------
+*/
+
+//creating the card shuffle using the provided shuffle
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+}
+
+//shuffle the cards when the page is reloaded
+document.body.onload = launchGame();
+
+
+
+/*-----------------------Part 3------Begin a new play------------------------
+*/
+
+function launchGame(){
+    //first shuffle the deck when the game is launched
+    cards = shuffle(cards);
+    //remove the existing classes from each card
+    for(var i=0; i<cards.length; i++){
+        deck.innerHTML = "";
+        [].forEach.call(cards, function(item){
+            deck.appendChild(item);
+        });
+        cards[i].classList.remove("show", "open", "match", "disabled");
+    }
+    //restart the timer
+    seconds = 0;
+    minutes = 0;
+    var timer = document.querySelector(".timer");
+    timer.innerHTML = "0 mins 0 secs";
+    
+}
+
+/* ---------------------Part 4 -------- Make cards show in the browser--------------
+*/
+var showCard = function(){
+    this.classList.toggle("open");
+    this.classList.toggle("show");
+    this.classList.toggle("turnedoff");
+    
+};
+
+/*-------------------part 5 ---------- flip cards---
+*/
+for (var i=0; i<cards.length; i++){
+    card = cards[i];
+    card.addEventListener("click", showCard);
+    card.addEventListener("click", flipCard);
+};
+
+
+/*--------------------part 6 ----------- Add the opened cards to a new list AND check if they match----------------
+*/
+function flipCard() {
+    openedCards.push(this);
+    var len = openedCards.length;
+    
+    if(len === 2){
+        moveCounter(false);
+        if(openedCards[0].type === openedCards[1].type){
+            matched();
+        } else {
+            notmatched();
+        }
+    }
+};
+
+// if they matched
+function matched(){
+    openedCards[0].classList.add("match");
+    openedCards[1].classList.add("match");
+    openedCards[0].classList.remove("show", "open");
+    openedCards[1].classList.remove("show", "open");
+    openedCards = [];
+    if(matchedCard.length === 16){
+        alert(`You win!`);
+    }
+}
+
+//If they didnt match 
+function notmatched(){
+    openedCards[0].classList.add("nomatch");
+    openedCards[1].classList.add("nomatch");
+    disable();
+    setTimeout(function(){
+        openedCards[0].classList.remove("show", "open", "nomatch");
+        openedCards[1].classList.remove("show", "open", "nomatch");
+        //now I have to reenable the cards to be clicked 
+        enable();
+        
+        
+        openedCards = [];
+    }, 800);
+}
+
+
+//turn off the cards 
+function disable(){
+    Array.prototype.filter.call(cards, function(card){
+        card.classList.add('turnedoff');
+    });
+}
+
+//reenable the cards and turn off the matched cards
+function enable(){
+    Array.prototype.filter.call(cards, function(card){
+        card.classList.remove('turnedoff');
+        for(var i=0; i<matchedCard.length; i++){
+            matchedCard[i].classList.add("turnedoff");
+        }
+    });
+}
+// ------------------part 7 ---------- Count all of the Moves
+
+
+function moveCounter(reset) {
+    if (!reset) {
+        moves++;
+    } counter.innerHTML = moves;
+    if(moves === 1){
+        timerStart();
+    }
+    
+
+    //finish stars section
+    rating();
+    //---------------part 7 ----------restart the game--------------------------
+
+
+    let restart = document.querySelector('.restart');
+
+    restart.addEventListener('click', function(){
+        launchGame();
+        moves = 0;
+        rating();
+        moveCounter(true);
+        seconds = 0;
+        minutes = 0;
+    });
+}
+
+   
+//-----------------part 8 create a timer----------------
+var seconds = 0;
+var minutes = 0; 
+var timer = document.querySelector(".timer");
+
+function timerStart(){
+interval = setInterval(function(){
+    timer.innerHTML = minutes+"mins "+seconds+"secs";
+        seconds++;
+        if(seconds == 60){
+            minutes++;
+            seconds=0;
+        }
+    },1000);
+}
+
+
+
+
+    /*------------------ part 9 make the stars decrease-----------*/
+
+
+const starsContainer = document.querySelector(".stars");
+function rating() {
+    if(moves>0 && moves<9){
+        starsContainer.innerHTML = `<li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>`;
+    } if(moves>8 && moves<11){
+        starsContainer.innerHTML = `<li><i class="fa fa-star"></i></li>
+        <li><i class="fa fa-star"></i></li>`;
+    } if (moves>11){
+        starsContainer.innerHTML = `<li><i class="fa fa-star"></i></li>`;
+    }
+}
