@@ -24,7 +24,7 @@ Loop   https://www.w3schools.com/js/js_loop_for.asp     https://stackoverflow.co
 I then looped it through the deck and introduced an event listener to represent what would happen if you click each card. 
 
 Flip card
-Next I flipped each card and when each card was flipped I added it to the openedCards array.  
+Next I flipped each card and when each card was flipped I added it to the openedCards array. I had to add the type attribute to each card in the HTML or this would have been impossible. The type was simply the type of car(ie. diamond, plane, etc.) and I used it to establish a matching pair. 
   *Dont worry about the moveCounter yet, I did that later.*
   I had to do something to show if the openedCards matched other openedCard in the array (first and second card) so I created an if   
   statement saying if it       
