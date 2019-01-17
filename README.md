@@ -54,3 +54,8 @@ For the CSS I just reusing the in-block line from the stars. after that I follow
 Moves/stars
 Lastly I had to include a stars variable. to do this I needed to recreate a series of if statements that would just use the HTML av
 I just took to stars, one star, three, stars and created if statements for them if they matched certain moves number ranges.
+
+Modal
+https://www.w3schools.com/cssref/pr_class_display.asp
+https://www.w3schools.com/howto/howto_css_modals.asp
+I followed these two to get the modal to work and to close on click
