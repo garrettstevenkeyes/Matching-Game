@@ -109,25 +109,25 @@ function matched(){
 function notmatched(){
     openedCards[0].classList.add("nomatch");
     openedCards[1].classList.add("nomatch");
-    disable();
+    disableCard();
     setTimeout(function(){
         openedCards[0].classList.remove("show", "open", "nomatch");
         openedCards[1].classList.remove("show", "open", "nomatch");
         //now I have to reenable the cards to be clicked 
-        enable();
+        enableCard();
         openedCards = [];
     }, 800);
 }
 
 //turn off the cards 
-function disable(){
+function disableCard(){
     Array.prototype.filter.call(cards, function(card){
         card.classList.add('turnedoff');
     });
 }
 
 //reenable the cards and turn off the matched cards
-function enable(){
+function enableCard(){
     Array.prototype.filter.call(cards, function(card){
         card.classList.remove('turnedoff');
         for(var i=0; i<matchedCard.length; i++){
