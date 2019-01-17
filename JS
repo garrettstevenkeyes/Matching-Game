@@ -1,8 +1,6 @@
-//make the icons display and interate through the loop
+//make the icons display, increment, and select the deck
 let card = document.getElementsByClassName("card");
 let cards = [...card];
-
-//complete deck of cards
 const deck = document.querySelector(".deck");
 
 //declare moves
@@ -11,13 +9,18 @@ let counter = document.querySelector(".moves");
 
 //declare variable of matchedCards
 let matchedCard = document.getElementsByClassName("match");
-
-// array of openedCards
 var openedCards = [];
 
+//timer
+var timer = document.querySelector(".timer");
+var seconds = 0;
+var minutes = 0; 
+var timer = document.querySelector(".timer");
 
+//Modal stuff
+let congratsMessage = document.querySelector('.congratsMessage');
 
-/*------------------PART 2---Shuffle the cards --------------------------------------
+/*----Shuffle the cards -------------------
 */
 
 //creating the card shuffle using the provided Fisher-Yates (aka Knuth) Shuffle
@@ -37,9 +40,7 @@ function shuffle(array) {
 //shuffle the cards when the page is reloaded
 document.body.onload = launchGame();
 
-
-
-/*-----------------------Part 3------Begin a new play------------------------
+/*-------Begin a new play------------------------
 */
 
 function launchGame(){
@@ -56,31 +57,30 @@ function launchGame(){
     //restart the timer
     seconds = 0;
     minutes = 0;
-    var timer = document.querySelector(".timer");
-    timer.innerHTML = "0 mins 0 secs";
-    
+    timer.innerHTML = "0 mins 0 secs";    
 }
 
-/* ---------------------Part 4 -------- Make cards show in the browser--------------
+/* -------- Make cards show in the browser--------------
 */
+
 var showCard = function(){
     this.classList.toggle("open");
     this.classList.toggle("show");
-    this.classList.toggle("turnedoff");
-    
+    this.classList.toggle("turnedoff");  
 };
 
-/*-------------------part 5 ---------- add event listeners so the cards will flip---
+/*-------- add event listeners so the cards will flip---
 */
+
 for (var i=0; i<cards.length; i++){
     card = cards[i];
     card.addEventListener("click", showCard);
     card.addEventListener("click", flipCard);
 };
 
-
-/*--------------------part 6 ----------- Add the opened cards to a new list AND check if they match----------------
+/*----- Add the opened cards to a new list AND check if they match--------
 */
+
 function flipCard() {
     openedCards.push(this);
     var len = openedCards.length;
@@ -102,9 +102,7 @@ function matched(){
     openedCards[0].classList.remove("show", "open");
     openedCards[1].classList.remove("show", "open");
     openedCards = [];
-    if(matchedCard.length === 12){
-        alert(`You win! It took you ${moves} moves. Would you like to play again? Click restart`);
-    }
+    youWin();
 }
 
 //If they didnt match 
@@ -117,12 +115,9 @@ function notmatched(){
         openedCards[1].classList.remove("show", "open", "nomatch");
         //now I have to reenable the cards to be clicked 
         enable();
-        
-        
         openedCards = [];
     }, 800);
 }
-
 
 //turn off the cards 
 function disable(){
@@ -140,8 +135,8 @@ function enable(){
         }
     });
 }
-// ------------------part 7 ---------- COunt all of the Moves
 
+// ------------- Count all of the Moves -------------
 
 function moveCounter(reset) {
     if (!reset) {
@@ -150,13 +145,9 @@ function moveCounter(reset) {
     if(moves === 1){
         timerStart();
     }
-    
-
     //finish stars section
     rating();
-    //---------------part 7 ----------restart the game--------------------------
-
-
+    //restart the game
     let restart = document.querySelector('.restart');
 
     restart.addEventListener('click', function(){
@@ -168,29 +159,20 @@ function moveCounter(reset) {
         minutes = 0;
     });
 }
-
    
-//-----------------part 8 Timer----------------
-var seconds = 0;
-var minutes = 0; 
-var timer = document.querySelector(".timer");
-
+//---- Timer----------------
 function timerStart(){
-interval = setInterval(function(){
-    timer.innerHTML = minutes+"mins "+seconds+"secs";
-        seconds++;
-        if(seconds == 60){
-            minutes++;
-            seconds=0;
-        }
-    },1000);
+    interval = setInterval(function(){
+        timer.innerHTML = minutes+"mins "+seconds+"secs";
+            seconds++;
+            if(seconds == 60){
+                minutes++;
+                seconds=0;
+            }
+        },1000);
 }
 
-
-
-
-    /*------------------ part 9 make the stars decrease-----------*/
-
+/*------------------ make the stars decrease-----------*/
 
 const starsContainer = document.querySelector(".stars");
 function rating() {
@@ -204,3 +186,33 @@ function rating() {
         starsContainer.innerHTML = `<li><i class="fa fa-star"></i></li>`;
     }
 }
+
+//-----------Modal---------------------
+
+let endTime = timer.innerHTML;
+let finishStars = starsContainer.innerHTML;
+// Get the modal
+var modal = document.getElementById('myModal');
+var modalContent = document.querySelector('p').innerHTML;
+var span = document.getElementsByClassName("close")[0];
+// When the user clicks on <span> (x), close the modal
+span.onclick = function(){
+    modal.style.display = "none";
+}
+
+window.onclick = function(event){
+  if (event.target == modal){
+    modal.style.display = "none";
+  }
+}
+
+//You win function
+function youWin(){
+  if(matchedCard.length === 4){
+    modal.style.display = "block";
+    endTime = timer.innerHTML;
+    finishStars = starsContainer.innerHTML;
+    congratsMessage.innerHTML = "Congrats you made "+moves+" moves in "+endTime+ ". Your final rating is "+finishStars;
+  }
+}
+
