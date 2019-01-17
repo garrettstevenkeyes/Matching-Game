@@ -208,11 +208,10 @@ window.onclick = function(event){
 
 //You win function
 function youWin(){
-  if(matchedCard.length === 4){
+  if(matchedCard.length === 16){
     modal.style.display = "block";
     endTime = timer.innerHTML;
     finishStars = starsContainer.innerHTML;
     congratsMessage.innerHTML = "Congrats you made "+moves+" moves in "+endTime+ ". Your final rating is "+finishStars;
   }
 }
-
