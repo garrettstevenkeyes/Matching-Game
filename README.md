@@ -1,7 +1,7 @@
 # Matching-Game
 Memory game where you try to match all the cards
 
-SO to do this memory game I broke it apart into many small steps (as seen in the comments)
+To do this memory game I broke it apart into many small steps (as seen in the comments)
 I started with selecting the cards and the deck, as well as creating an array for all of the opened crads. I used pretty detailed comments to outline how to do it.
 
 Shuffle deck
@@ -9,12 +9,12 @@ After selecting all of my cards I used the shuffle function we were provided to 
 One thing discovered here was that cards were not shuffling on the screen when the game loaded. 
 to solve this problem I had to look up the documetns body onload, which I then tied to a function to launch the Game:https://stackoverflow.com/questions/1235985/attach-a-body-onload-event-with-js
 
-  Beginning a play
-  I next had to apply the shuffle function to the cards variable, which selected all of the HTML cards 
-  I then had to toggle all of the cards on the deck to remove the "show","open","match", and "disabled" clases
-  after this I built a loop function to loop this class removal through each card.
-  
-  Making the time restart(see timer section at end)
+Beginning a play
+I next had to apply the shuffle function to the cards variable, which selected all of the HTML cards 
+I then had to toggle all of the cards on the deck to remove the "show","open","match", and "disabled" clases
+after this I built a loop function to loop this class removal through each card.
+
+Making the time restart(see timer section at end)
   
 Show Card
 Next I wanted to have each card show in the browser. I had to create a variable that would represent a scard being shown.
